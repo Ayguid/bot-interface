@@ -32,10 +32,10 @@ import { state } from "@/sockets";
           <v-btn @click="state.snackbar = true">
             Open Snackbar
           </v-btn>
-          <v-snackbar v-model="state.snackbar">
+          <v-snackbar v-model="state.snackbar" :timeout="-1" location="bottom right">
             <pre>{{ state.snackbar_msg }}</pre>
             <template v-slot:actions>
-              <v-btn color="pink" variant="text" @click="state.snackbar = false">
+              <v-btn color="pink" variant="text" @click="state.snackbar = false" >
                 Close
               </v-btn>
             </template>

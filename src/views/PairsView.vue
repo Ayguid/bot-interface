@@ -14,7 +14,7 @@ const computedPairs = computed(() => {
     let clone = JSON.parse(JSON.stringify(state.pairs)) // to avoid mutating state
     for (const pair in clone) {
       clone[pair].orders = clone[pair].orders.map((
-        { orderId, price, origQty, executedQty, side, status }) => ({ orderId, price, origQty, executedQty, side, status, actions: false }))
+        { orderId, price, origQty, executedQty, side, status, time, updateTime }) => ({ orderId, price, origQty, executedQty, side, status, time: readTimeStamp(time), updateTime: readTimeStamp(updateTime), actions: false }))
     }
     return clone
   }
@@ -24,6 +24,16 @@ const getColor = (type) => {
   if (type == 'SELL') return 'red'
   else if (type == 'BUY') return 'green'
   else return 'green'
+}
+
+const itemRowBackground = (item) => {
+  //console.log(item)
+  if (item.item.status == 'CANCELED') return { class: 'text-orange' };
+  return;
+}
+
+const readTimeStamp = (timestamp) =>{
+  return new Date(timestamp).toLocaleString();
 }
 </script>
 <template>
@@ -56,8 +66,7 @@ const getColor = (type) => {
                 </v-card-text>
 
                 <div class="px-4">
-                  <v-switch :label="`${isExpanded(item) ? 'Hide' : 'Show'} orders`" :model-value="isExpanded(item)"
-                    density="compact" inset @click="() => toggleExpand(item)"></v-switch>
+                  <v-switch :label="`${isExpanded(item) ? 'Hide' : 'Show'} orders`" :model-value="isExpanded(item)" density="compact" inset @click="() => toggleExpand(item)"></v-switch>
                 </div>
 
                 <v-divider></v-divider>
@@ -69,7 +78,7 @@ const getColor = (type) => {
                         <v-text-field v-model="search" label="Search" prepend-inner-icon="mdi-magnify"
                           variant="outlined" hide-details single-line></v-text-field>
                       </template>
-                      <v-data-table :items="item.raw.orders" :search="search" calculate-widths>
+                      <v-data-table :items="item.raw.orders" :search="search" calculate-widths :row-props="itemRowBackground">
                         <template v-slot:item.side="{ value }">
                           <v-chip :color="getColor(value)">
                             {{ value }}
