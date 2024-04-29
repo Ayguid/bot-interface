@@ -48,21 +48,25 @@ const readTimeStamp = (timestamp) =>{
         <template v-slot:default="{ items, isExpanded, toggleExpand }">
           <v-row>
             <v-col v-for="item in items" :key="item.key" cols="12">
-
               <v-card>
                 <v-card-title class="d-flex align-center">
                   <!--
                     <v-icon :color="item.raw.color" :icon="item.raw.icon" size="18" start></v-icon>
                   -->
-                  <h3 class="py-6"><span class="text-amber">{{ item.raw.key }}</span> - <span
+                  <h4 class="py-2"><span class="text-amber">{{ item.raw.key }}</span> - <span
                       class="text-orange">CurrentPrice:
                     </span> {{
                       item.raw.currentPrice.price }} - <span class="text-orange">AvgPrice: </span>{{
-                      item.raw.avgPrice.price }}</h3>
+                      item.raw.avgPrice.price }}</h4>
                 </v-card-title>
 
                 <v-card-text>
-                  {{ item.raw.key }}
+                  <span class="text-green">STOCH RSI:&nbsp;</span>{{ item.raw.indicators.CURRENT_STOCH_RSI }}&nbsp;<span class="text-orange">Below limit:&nbsp;</span>{{ item.raw.indicators.CURRENT_STOCH_RSI.k < item.raw.stochBuyLimit}}
+                  <br> 
+                  <span class="text-green">MACD:&nbsp;</span>{{ item.raw.indicators.CURRENT_MACD}}&nbsp;<span class="text-orange">Below limit:&nbsp;</span>{{ item.raw.indicators.CURRENT_MACD.signal < item.raw.macdBuyLimit}}
+                  <br>
+                  <span v-if="item.raw.triggers"><span class="text-red">Down trigger:&nbsp;</span>{{ item.raw.triggers.downTrigger }}:&nbsp;<span class="text-green">Up trigger:&nbsp;</span>{{ item.raw.triggers.upTrigger }}</span>
+                  <span v-else>No active order -> No triggers</span>
                 </v-card-text>
 
                 <div class="px-4">
