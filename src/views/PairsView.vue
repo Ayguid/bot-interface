@@ -65,6 +65,10 @@ const readTimeStamp = (timestamp) =>{
                   <br> 
                   <span class="text-green">MACD:&nbsp;</span>{{ item.raw.indicators.CURRENT_MACD}}&nbsp;<span class="text-orange">Below limit:&nbsp;</span>{{ item.raw.indicators.CURRENT_MACD.signal < item.raw.macdBuyLimit}}
                   <br>
+                  <span class="text-green">ADX:&nbsp;</span>{{ item.raw.indicators.CURRENT_ADX}}&nbsp; 
+                  {{ (item.raw.indicators.CURRENT_ADX.adx + item.raw.indicators.CURRENT_ADX.pdi + item.raw.indicators.CURRENT_ADX.mdi)/3  }}
+                  {{ item.raw.indicators.CURRENT_ADX.pdi + item.raw.indicators.CURRENT_ADX.mdi  }}
+                  <br>
                   <span v-if="item.raw.triggers"><span class="text-red">Down trigger:&nbsp;</span>{{ item.raw.triggers.downTrigger }}:&nbsp;<span class="text-green">Up trigger:&nbsp;</span>{{ item.raw.triggers.upTrigger }}</span>
                   <span v-else>No active order -> No triggers</span>
                 </v-card-text>
