@@ -1,7 +1,7 @@
 import { reactive } from "vue";
 import { io } from "socket.io-client";
 // "undefined" means the URL will be computed from the `window.location` object
-const URL = process.env.NODE_ENV === "production" ? undefined : "http://172.19.8.85:7000";
+const URL = process.env.NODE_ENV === "production" ? undefined : "http://172.19.8.85:8000";
 
 export const socket = io(URL);
 export const state = reactive({
@@ -24,8 +24,6 @@ export const state = reactive({
   }
 });
 
-
-
 socket.on("connect", () => {
   state.connected = true;
 });
@@ -43,19 +41,12 @@ socket.on("bar", (...args) => {
 });
 
 socket.on('PAIRS_MESSAGE', (data) => {
-  //console.log('PAIRS_MESSAGE', data);
   state.pairs = data;
-  //messages = [...this.messages, data];
-  // you can also do this.messages.push(data)
 });
 socket.on('ACCOUNT_MESSAGE', (data) => {
-  //console.log('ACCOUNT_MESSAGE', data);
   state.account = data;
-  //messages = [...this.messages, data];
-  // you can also do this.messages.push(data)
 });
 socket.on('ORDER_PLACED', (data) => {
-  //console.log('WAITING', data);
   state.snackbar = true;
   state.snackbar_msg = data;
 });

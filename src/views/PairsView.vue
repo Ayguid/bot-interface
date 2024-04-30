@@ -125,6 +125,58 @@ const macdChartData = computed(() => {
   return indicatorsCharts;
 });
 
+const adxChartData = computed(() => {
+  let indicatorsCharts = {};
+  let clone = JSON.parse(JSON.stringify(state.pairs)) // to avoid mutating state
+  clone.forEach(pair => {
+    let indicatorLabels = [];
+    //let indicatorADX = [];
+    //let indicatorADXpdi = [];
+    let indicatorADXmdi = [];
+    pair.indicators.adx.forEach((adxdDatapoint, i) => {
+      indicatorLabels.push(i);
+      //indicatorADX.push(adxdDatapoint.adx)
+      //indicatorADXpdi.push(adxdDatapoint.pdi)
+      indicatorADXmdi.push(adxdDatapoint.mdi)
+    });
+    indicatorsCharts[pair.key] = {
+      labels: indicatorLabels,
+      datasets: [
+        //{ label: 'ADX', backgroundColor: '#f44336', data: indicatorADX, borderColor: '#f44336', tension: 0.2, borderWidth: 2, pointRadius: 2, pointHoverRadius: 2 },
+        //{ label: 'pdi', backgroundColor: '#36A2EB', data: indicatorADXpdi, borderColor: '#36A2EB', tension: 0.2, borderWidth: 2, pointRadius: 2, pointHoverRadius: 2 },
+        { label: 'mdi', backgroundColor: '#449848', data: indicatorADXmdi, borderColor: '#449848', tension: 0.2, borderWidth: 2, pointRadius: 2, pointHoverRadius: 2 },
+      ],
+      options: {//chart options 
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          },
+          annotation: {
+            annotations: {
+              line1: {
+                type: 'line',
+                borderDash: [6, 6],
+                yMin: pair.adxBuyLimit,
+                yMax: pair.adxBuyLimit,
+                borderColor: '#FFFFFF',
+                borderWidth: 1,
+                label: {
+                  display: true,
+                  content: 'ADX limit ',//(ctx) => 'Average: ' + average(ctx).toFixed(2),
+                  position: 'start'
+                },
+              }
+            }
+          }
+        }
+      }
+    };
+  });
+  return indicatorsCharts;
+});
+
 const triggerChart = computed(() => {
   let indicatorsCharts = {};
   let clone = JSON.parse(JSON.stringify(state.pairs)) // to avoid mutating state
@@ -213,6 +265,10 @@ const readTimeStamp = (timestamp) => {
                       <Line v-if="triggerChart[item.raw.key]" :data="triggerChart[item.raw.key]"
                         :options="triggerChart[item.raw.key].options" />
                     </v-col>
+                    <v-col v-else cols="12" sm="4">
+                      <Line v-if="adxChartData[item.raw.key]" :data="adxChartData[item.raw.key]"
+                        :options="adxChartData[item.raw.key].options" />
+                    </v-col>
                   </v-row>
                   <span class="text-green">STOCH RSI:&nbsp;</span>{{ item.raw.indicators.CURRENT_STOCH_RSI }}&nbsp;<span
                     class="text-orange">Below limit:&nbsp;</span>{{ item.raw.indicators.CURRENT_STOCH_RSI.k <
@@ -224,6 +280,8 @@ const readTimeStamp = (timestamp) => {
                       {{ (item.raw.indicators.CURRENT_ADX.adx + item.raw.indicators.CURRENT_ADX.pdi +
                         item.raw.indicators.CURRENT_ADX.mdi) / 3 }}
                       {{ item.raw.indicators.CURRENT_ADX.pdi + item.raw.indicators.CURRENT_ADX.mdi }}
+                      <br>
+                      <span class="text-green">AO:&nbsp;</span>{{ item.raw.indicators.CURRENT_AO }} {{ item.raw.indicators.CURRENT_AO - 268.02 }}
                       <br>
                       <span v-if="item.raw.triggers"><span class="text-red">Down trigger:&nbsp;</span>{{
                         item.raw.triggers.downTrigger }}:&nbsp;<span class="text-green">Up trigger:&nbsp;</span>{{
