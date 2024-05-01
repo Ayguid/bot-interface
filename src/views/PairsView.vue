@@ -29,9 +29,7 @@ const getColor = (type) => {
 }
 
 const itemRowBackground = (item) => {
-  //console.log(item)
-  if (item.item.status == 'CANCELED') return { class: 'text-orange' };
-  return;
+  return item.item.status == 'CANCELED' ? { class: 'text-orange' } : '';
 }
 
 const readTimeStamp = (timestamp) => {

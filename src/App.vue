@@ -1,8 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-//import { ref, computed } from 'vue'
 import { state } from "@/sockets";
-
 </script>
 
 <template>
@@ -14,10 +12,6 @@ import { state } from "@/sockets";
         <RouterLink to="/account">Account</RouterLink>
         <RouterLink to="/pairs">Pairs</RouterLink>
       </nav>
-      <!--
-        <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-      <HelloWorld msg="You did it!" />
-      -->
     </div>
   </header>
 
@@ -29,8 +23,8 @@ import { state } from "@/sockets";
       <v-row no-gutters>
 
         <v-col cols="12" sm="4">
-          <v-btn @click="state.snackbar = true">
-            Open Snackbar
+          <v-btn @click="state.snackbar = !state.snackbar">
+            Snackbar
           </v-btn>
           <v-snackbar v-model="state.snackbar" :timeout="-1" location="bottom right">
             <pre>{{ state.snackbar_msg }}</pre>
@@ -42,31 +36,8 @@ import { state } from "@/sockets";
           </v-snackbar>
         </v-col>
 
-        <v-col cols="12" sm="4">
-          <div class="text-center pa-4">
-            <v-btn @click="state.over_modal_show = true">
-              Open Dialog
-            </v-btn>
-
-            <v-dialog v-model="state.over_modal_show" fullscreen>
-              <v-card max-width="400" prepend-icon="mdi-update"
-                text="Your application will relaunch automatically after the update is complete."
-                title="Update in progress">
-                <template v-slot:actions>
-                  <v-btn class="ms-auto" text="Ok" @click="state.over_modal_show = false"></v-btn>
-                </template>
-              </v-card>
-            </v-dialog>
-          </div>
-        </v-col>
       </v-row>
     </v-container>
-
-
-
-
-
-
   </div>
 
 </template>
@@ -81,8 +52,6 @@ header {
   display: block;
   margin: 0 auto 2rem;
 }
-
-
 
 nav a.router-link-exact-active {
   color: var(--color-text);

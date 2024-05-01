@@ -8,7 +8,6 @@ export const state = reactive({
   connected: false,
   snackbar: false,
   snackbar_msg: '',
-  over_modal_show: false,
   fooEvents: [],
   barEvents: [],
   startBotEmit() {
