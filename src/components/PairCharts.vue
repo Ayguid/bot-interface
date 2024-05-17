@@ -16,7 +16,13 @@ ChartJS.register(
     Legend,
     annotationPlugin,
     Filler
-);  
+);
+//
+const annotationFontSize = 10;
+const pointRadius = 1;
+const pointHoverRadius = 1;
+const borderWidth = 1;
+//
 const props = defineProps({
     pair: {
         type: Object,
@@ -40,9 +46,9 @@ const stochChartData = computed(() => {
     indicatorsCharts = {
         labels: indicatorLabels,
         datasets: [
-            { label: 'stoch_rsi', backgroundColor: '#f44336', data: indicatorSTOCH, borderColor: '#f44336', tension: 0.2, borderWidth: 2, pointRadius: 2, pointHoverRadius: 2 },
-            { label: 'stoch_k', backgroundColor: '#36A2EB', data: indicatorSTOCHk, borderColor: '#36A2EB', tension: 0.2, borderWidth: 2, pointRadius: 2, pointHoverRadius: 2 },
-            { label: 'stoch_d', backgroundColor: '#449848', data: indicatorSTOCHd, borderColor: '#449848', tension: 0.2, borderWidth: 2, pointRadius: 2, pointHoverRadius: 2 },
+            { label: 'stoch_rsi', backgroundColor: '#f44336', data: indicatorSTOCH, borderColor: '#f44336', tension: 0.2, borderWidth: borderWidth, pointRadius: pointRadius, pointHoverRadius: pointHoverRadius },
+            { label: 'stoch_k', backgroundColor: '#36A2EB', data: indicatorSTOCHk, borderColor: '#36A2EB', tension: 0.2, borderWidth: borderWidth, pointRadius: pointRadius, pointHoverRadius: pointHoverRadius },
+            { label: 'stoch_d', backgroundColor: '#449848', data: indicatorSTOCHd, borderColor: '#449848', tension: 0.2, borderWidth: borderWidth, pointRadius: pointRadius, pointHoverRadius: pointHoverRadius },
         ],
         options: {//chart options 
             responsive: true,
@@ -62,8 +68,12 @@ const stochChartData = computed(() => {
                             borderWidth: 1,
                             label: {
                                 display: true,
+                                //backgroundColor: 'rgba(245,245,245)',
                                 content: 'Stoch RSI limit ',//(ctx) => 'Average: ' + average(ctx).toFixed(2),
-                                position: 'start'
+                                position: 'start',
+                                font: {
+                                    size: annotationFontSize
+                                }
                             },
                         }
                     }
@@ -78,21 +88,21 @@ const macdChartData = computed(() => {
     let indicatorsCharts = {};
     let indicatorLabels = [];
     let indicatorMACD= [];
-    let indicatorMACDs = [];
-    let indicatorMACDh = [];
+    //let indicatorMACDs = [];
+    //let indicatorMACDh = [];
     //console.log(props.pair.indicators.macd.length)
     props.pair.indicators.macd.forEach((macdDatapoint, i) => {
         indicatorLabels.push(i);
         indicatorMACD.push(macdDatapoint.MACD)
-        indicatorMACDs.push(macdDatapoint.signal)
-        indicatorMACDh.push(macdDatapoint.histogram)
+        //indicatorMACDs.push(macdDatapoint.signal)
+        //indicatorMACDh.push(macdDatapoint.histogram)
     });
     indicatorsCharts = {
         labels: indicatorLabels,
         datasets: [
-            { label: 'MACD', backgroundColor: '#f44336', data: indicatorMACD, borderColor: '#f44336', tension: 0.2, borderWidth: 2, pointRadius: 2, pointHoverRadius: 2 },
-            { label: 'signal', backgroundColor: '#36A2EB', data: indicatorMACDs, borderColor: '#36A2EB', tension: 0.2, borderWidth: 2, pointRadius: 2, pointHoverRadius: 2 },
-            { label: 'histogram', backgroundColor: '#449848', data: indicatorMACDh, borderColor: '#449848', tension: 0.2, borderWidth: 2, pointRadius: 2, pointHoverRadius: 2 },
+            { label: 'MACD', backgroundColor: '#36A2EB', data: indicatorMACD, borderColor: '#36A2EB', tension: 0.2, borderWidth: borderWidth, pointRadius: pointHoverRadius, pointHoverRadius: pointHoverRadius },
+            //{ label: 'signal', backgroundColor: '#f44336', data: indicatorMACDs, borderColor: '#f44336', tension: 0.2, borderWidth: borderWidth, pointRadius: pointRadius, pointHoverRadius: pointHoverRadius },
+            //{ label: 'histogram', backgroundColor: '#449848', data: indicatorMACDh, borderColor: '#449848', tension: 0.2, borderWidth: borderWidth, pointRadius: pointRadius, pointHoverRadius: pointHoverRadius },
         ],
         options: {//chart options 
             responsive: true,
@@ -113,9 +123,13 @@ const macdChartData = computed(() => {
                             label: {
                                 display: true,
                                 content: 'MACD limit ',//(ctx) => 'Average: ' + average(ctx).toFixed(2),
-                                position: 'start'
+                                position: 'start',
+                                font: {
+                                    size: annotationFontSize
+                                }
                             },
                         }
+                        
                     }
                 }
             }
@@ -141,9 +155,9 @@ const adxChartData = computed(() => {
     indicatorsCharts = {
         labels: indicatorLabels,
         datasets: [
-            { label: 'ADX', backgroundColor: '#f44336', data: indicatorADX, borderColor: '#f44336', tension: 0.2, borderWidth: 2, pointRadius: 2, pointHoverRadius: 2 },
-            //{ label: 'pdi', backgroundColor: '#36A2EB', data: indicatorADXpdi, borderColor: '#36A2EB', tension: 0.2, borderWidth: 2, pointRadius: 2, pointHoverRadius: 2 },
-            //{ label: 'mdi', backgroundColor: '#449848', data: indicatorADXmdi, borderColor: '#449848', tension: 0.2, borderWidth: 2, pointRadius: 2, pointHoverRadius: 2 },
+            { label: 'ADX', backgroundColor: '#f44336', data: indicatorADX, borderColor: '#f44336', tension: 0.2, borderWidth: borderWidth, pointRadius: pointRadius, pointHoverRadius: pointHoverRadius },
+            //{ label: 'pdi', backgroundColor: '#36A2EB', data: indicatorADXpdi, borderColor: '#36A2EB', tension: 0.2, borderWidth: borderWidth, pointRadius: pointRadius, pointHoverRadius: pointHoverRadius },
+            //{ label: 'mdi', backgroundColor: '#449848', data: indicatorADXmdi, borderColor: '#449848', tension: 0.2, borderWidth: borderWidth, pointRadius: pointRadius, pointHoverRadius: pointHoverRadius },
         ],
         options: {//chart options 
             responsive: true,
@@ -164,7 +178,10 @@ const adxChartData = computed(() => {
                             label: {
                                 display: true,
                                 content: 'ADX limit ',//(ctx) => 'Average: ' + average(ctx).toFixed(2),
-                                position: 'start'
+                                position: 'start',
+                                font: {
+                                    size: annotationFontSize
+                                }
                             },
                         }
                     }
@@ -188,7 +205,7 @@ const aoChartData = computed(() => {
     indicatorsCharts = {
         labels: indicatorLabels,
         datasets: [
-            { label: 'AO', backgroundColor: '#f44336', data: indicatorAO, borderColor: '#f44336', tension: 0.2, borderWidth: 2, pointRadius: 2, pointHoverRadius: 2 },
+            { label: 'AO', backgroundColor: '#f44336', data: indicatorAO, borderColor: '#f44336', tension: 0.2, borderWidth: borderWidth, pointRadius: pointRadius, pointHoverRadius: pointHoverRadius },
         ],
         options: {//chart options 
             responsive: true,
@@ -209,7 +226,10 @@ const aoChartData = computed(() => {
                             label: {
                                 display: true,
                                 content: 'AO limit ',//(ctx) => 'Average: ' + average(ctx).toFixed(2),
-                                position: 'start'
+                                position: 'start',
+                                font: {
+                                    size: annotationFontSize
+                                }
                             },
                         }
                     }
@@ -233,7 +253,7 @@ const closingCandlesChartData = computed(() => {
     indicatorsCharts = {
         labels: indicatorLabels,
         datasets: [
-            { label: 'Close Pr', fill: true, backgroundColor: '#a475127a', data: indicatorAO, borderColor: '#db980b', tension: 0.2, borderWidth: 2, pointRadius: 2, pointHoverRadius: 2 },
+            { label: 'Close Pr', fill: true, backgroundColor: '#a475127a', data: indicatorAO, borderColor: '#db980b', tension: 0.2, borderWidth: borderWidth, pointRadius: pointRadius, pointHoverRadius: pointHoverRadius },
         ],
         options: {//chart options 
             responsive: true,
@@ -254,7 +274,10 @@ const closingCandlesChartData = computed(() => {
                             label: {
                                 display: true,
                                 content: 'C Price ',//(ctx) => 'Average: ' + average(ctx).toFixed(2),
-                                position: 'start'
+                                position: 'start',
+                                font: {
+                                    size: annotationFontSize
+                                }
                             },
                         }
                     }
